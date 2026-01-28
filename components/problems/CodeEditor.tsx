@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import Editor, { OnMount } from '@monaco-editor/react';
+import type { editor } from 'monaco-editor';
 import { useEditorStore, useThemeStore } from '@/lib/store';
 import { Language, StarterCode } from '@/types/problem';
 import {
@@ -40,7 +41,7 @@ export function CodeEditor({
 }: CodeEditorProps) {
   const { language, setLanguage, getCode, setCode, resetCode } = useEditorStore();
   const { theme } = useThemeStore();
-  const editorRef = useRef<ReturnType<OnMount> | null>(null);
+  const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
   const currentCode = getCode(problemSlug, language, starterCode[language]);
 

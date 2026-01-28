@@ -137,12 +137,48 @@ npx prisma studio
 STRIPE_SECRET_KEY="sk_test_..."
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_..."
 STRIPE_WEBHOOK_SECRET="whsec_..."
+STRIPE_MONTHLY_PRICE_ID="price_..."
+STRIPE_YEARLY_PRICE_ID="price_..."
 ```
 
 5. For local webhook testing, use Stripe CLI:
 ```bash
 stripe listen --forward-to localhost:3000/api/stripe/webhook
 ```
+
+## Deploying to Vercel
+
+1. Push your code to a Git repository (GitHub, GitLab, or Bitbucket)
+
+2. Import your project in [Vercel](https://vercel.com)
+
+3. Set up your environment variables in Vercel:
+   - Go to Project Settings → Environment Variables
+   - Add all variables from your `.env` file:
+     - `DATABASE_URL` - Your production PostgreSQL connection string
+     - `NEXTAUTH_SECRET` - A secure random string (generate with `openssl rand -base64 32`)
+     - `NEXTAUTH_URL` - Your production URL (e.g., `https://your-app.vercel.app`)
+     - `NEXT_PUBLIC_APP_URL` - Same as `NEXTAUTH_URL`
+     - `STRIPE_SECRET_KEY` - Your Stripe secret key (use live key for production)
+     - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` - Your Stripe publishable key
+     - `STRIPE_WEBHOOK_SECRET` - Webhook secret from Stripe Dashboard
+     - `STRIPE_MONTHLY_PRICE_ID` - Your monthly price ID from Stripe
+     - `STRIPE_YEARLY_PRICE_ID` - Your yearly price ID from Stripe
+     - `GOOGLE_CLIENT_ID` - (Optional) Google OAuth client ID
+     - `GOOGLE_CLIENT_SECRET` - (Optional) Google OAuth client secret
+
+4. Set up your production database:
+   - Use a managed PostgreSQL service (e.g., Vercel Postgres, Supabase, Railway, Neon)
+   - Run migrations: `npx prisma migrate deploy`
+   - Seed the database: `npx prisma db seed`
+
+5. Configure Stripe webhook for production:
+   - Go to Stripe Dashboard → Developers → Webhooks
+   - Add endpoint: `https://your-app.vercel.app/api/stripe/webhook`
+   - Select events: `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.payment_failed`
+   - Copy the webhook signing secret to your Vercel environment variables
+
+6. Deploy: Vercel will automatically deploy on every push to your main branch
 
 ## Setting Up Google OAuth (Optional)
 

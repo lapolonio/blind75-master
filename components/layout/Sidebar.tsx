@@ -7,7 +7,6 @@ import {
   LayoutDashboard,
   ListTodo,
   BarChart3,
-  Settings,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';

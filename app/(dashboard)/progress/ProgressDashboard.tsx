@@ -7,7 +7,6 @@ import { formatDate } from '@/lib/utils';
 import {
   CheckCircle2,
   Circle,
-  TrendingUp,
   Target,
   Flame,
   Calendar,
