@@ -13,8 +13,9 @@ interface Plan {
   description: string;
   price: number;
   priceId?: string;
-  features: string[];
+  features: readonly string[] | string[];
   problemLimit: number;
+  popular?: boolean;
 }
 
 interface PricingCardsProps {

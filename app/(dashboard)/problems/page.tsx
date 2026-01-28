@@ -20,7 +20,7 @@ async function getProblems(userId?: string): Promise<ProblemWithProgress[]> {
     const progress = await prisma.progress.findMany({
       where: { userId },
     });
-    progressMap = progress.reduce((acc, p) => {
+    progressMap = progress.reduce((acc: Record<string, any>, p: { problemId: string; status: string; attempts: number; lastCode: string | null; solvedAt: Date | null }) => {
       acc[p.problemId] = {
         status: p.status,
         attempts: p.attempts,
@@ -31,7 +31,7 @@ async function getProblems(userId?: string): Promise<ProblemWithProgress[]> {
     }, {} as Record<string, any>);
   }
 
-  return problems.map((problem) => ({
+  return problems.map((problem: any) => ({
     id: problem.id,
     slug: problem.slug,
     title: problem.title,

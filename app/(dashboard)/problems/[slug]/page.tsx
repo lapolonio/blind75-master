@@ -78,6 +78,7 @@ async function getProblem(slug: string, userId?: string) {
     },
     progress: progress
       ? {
+          id: progress.id,
           status: progress.status as any,
           lastCode: progress.lastCode,
           language: progress.language as any,
