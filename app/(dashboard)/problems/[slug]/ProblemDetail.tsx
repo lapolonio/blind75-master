@@ -145,7 +145,7 @@ export function ProblemDetail({
           <div className="w-1/2 border-r overflow-auto">
             <Tabs
               value={activeTab}
-              onValueChange={(v: string) => setActiveTab(v)}
+              onValueChange={(v) => setActiveTab(v as 'description' | 'solution' | 'discuss')}
               className="h-full flex flex-col"
             >
               <div className="border-b px-4">
