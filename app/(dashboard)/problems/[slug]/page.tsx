@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { ProblemDetail } from './ProblemDetail';
+import { Difficulty, Category, Pattern } from '@/types/problem';
 
 interface Props {
   params: { slug: string };
@@ -63,9 +64,9 @@ async function getProblem(slug: string, userId?: string) {
       id: problem.id,
       slug: problem.slug,
       title: problem.title,
-      difficulty: problem.difficulty,
-      category: problem.category,
-      pattern: problem.pattern,
+      difficulty: problem.difficulty as Difficulty,
+      category: problem.category as Category,
+      pattern: problem.pattern as Pattern,
       description: problem.description,
       constraints: problem.constraints,
       examples: problem.examples as { input: string; output: string; explanation?: string }[],
@@ -80,10 +81,10 @@ async function getProblem(slug: string, userId?: string) {
       ? {
           id: progress.id,
           status: progress.status as 'solved' | 'attempted' | 'not-started',
-          lastCode: progress.lastCode,
+          lastCode: progress.lastCode ?? undefined,
           language: progress.language as 'javascript' | 'python' | 'typescript',
           attempts: progress.attempts,
-          solvedAt: progress.solvedAt,
+          solvedAt: progress.solvedAt ?? undefined,
         }
       : null,
     prevProblem,

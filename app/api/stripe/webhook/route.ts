@@ -85,11 +85,15 @@ export async function POST(request: Request) {
 
       case 'invoice.payment_failed': {
         const invoice = event.data.object as Stripe.Invoice;
-        const subscriptionId = invoice.subscription as string;
+        // In Stripe API, subscription can be string | Subscription | null
+        const subscriptionId = (invoice as { subscription?: string | Stripe.Subscription | null }).subscription;
+        const finalSubscriptionId = typeof subscriptionId === 'string' 
+          ? subscriptionId 
+          : subscriptionId?.id;
 
-        if (subscriptionId) {
+        if (finalSubscriptionId) {
           const user = await prisma.user.findFirst({
-            where: { stripeSubscriptionId: subscriptionId },
+            where: { stripeSubscriptionId: finalSubscriptionId },
           });
 
           if (user) {

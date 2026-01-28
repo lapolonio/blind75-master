@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { ProblemList } from '@/components/problems/ProblemList';
-import { ProblemWithProgress } from '@/types/problem';
+import { ProblemWithProgress, Difficulty, Category, Pattern, ProgressStatus } from '@/types/problem';
 
 export const metadata: Metadata = {
   title: 'Problems - Blind75 Master',
@@ -61,9 +61,9 @@ async function getProblems(userId?: string): Promise<ProblemWithProgress[]> {
     id: problem.id,
     slug: problem.slug,
     title: problem.title,
-    difficulty: problem.difficulty as 'easy' | 'medium' | 'hard',
-    category: problem.category as 'array' | 'string' | 'linked-list' | 'tree' | 'graph' | 'dynamic-programming' | 'binary-search' | 'heap' | 'backtracking' | 'math',
-    pattern: problem.pattern as 'hash-table' | 'two-pointers' | 'sliding-window' | 'stack' | 'queue' | 'binary-search' | 'dfs' | 'bfs' | 'recursion' | 'dynamic-programming' | 'greedy' | 'bit-manipulation',
+    difficulty: problem.difficulty as Difficulty,
+    category: problem.category as Category,
+    pattern: problem.pattern as Pattern,
     description: problem.description,
     constraints: problem.constraints,
     examples: problem.examples as { input: string; output: string; explanation?: string }[],
@@ -73,7 +73,14 @@ async function getProblems(userId?: string): Promise<ProblemWithProgress[]> {
     hints: problem.hints as string[],
     isPremium: problem.isPremium,
     order: problem.order,
-    progress: progressMap[problem.id] || undefined,
+    progress: progressMap[problem.id] 
+      ? {
+          status: progressMap[problem.id].status as ProgressStatus,
+          attempts: progressMap[problem.id].attempts,
+          lastCode: progressMap[problem.id].lastCode ?? undefined,
+          solvedAt: progressMap[problem.id].solvedAt ?? undefined,
+        }
+      : undefined,
   }));
 }
 
