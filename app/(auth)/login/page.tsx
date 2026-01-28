@@ -40,7 +40,7 @@ export default function LoginPage() {
         router.push(callbackUrl);
         router.refresh();
       }
-    } catch (error) {
+    } catch {
       setErrorMessage('Something went wrong. Please try again.');
     } finally {
       setIsLoading(false);

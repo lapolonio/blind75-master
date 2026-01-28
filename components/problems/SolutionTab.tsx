@@ -9,7 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
 import { Clock, HardDrive, Lightbulb, Copy, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -29,7 +28,6 @@ const languages: { value: Language; label: string }[] = [
 export function SolutionTab({
   solution,
   hints,
-  isPremium = false,
   hasAccess = true,
 }: SolutionTabProps) {
   const [language, setLanguage] = useState<Language>('javascript');

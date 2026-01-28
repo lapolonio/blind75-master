@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ProblemWithProgress, FilterOptions, Difficulty, Category, Pattern, ProgressStatus } from '@/types/problem';
+import { ProblemWithProgress, Difficulty, Category, Pattern, ProgressStatus } from '@/types/problem';
 import { ProblemCard } from './ProblemCard';
 import { Input } from '@/components/ui/input';
 import {

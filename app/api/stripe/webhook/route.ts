@@ -23,8 +23,8 @@ export async function POST(request: Request) {
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
-  } catch (error: any) {
-    console.error('Webhook signature verification failed:', error.message);
+  } catch (error: unknown) {
+    console.error('Webhook signature verification failed:', (error as Error).message);
     return NextResponse.json(
       { error: 'Invalid signature' },
       { status: 400 }
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
 
       case 'invoice.payment_failed': {
         const invoice = event.data.object as Stripe.Invoice;
-        const subscriptionId = (invoice as any).subscription as string;
+        const subscriptionId = invoice.subscription as string;
 
         if (subscriptionId) {
           const user = await prisma.user.findFirst({

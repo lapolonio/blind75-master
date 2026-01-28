@@ -13,7 +13,7 @@ interface TestRunnerProps {
   onRunTests?: () => void;
 }
 
-export function TestRunner({ testCases, code, onRunTests }: TestRunnerProps) {
+export function TestRunner({ testCases, onRunTests }: TestRunnerProps) {
   const [isRunning, setIsRunning] = useState(false);
   const [results, setResults] = useState<TestResult[]>([]);
   const [activeTab, setActiveTab] = useState('0');
@@ -26,7 +26,7 @@ export function TestRunner({ testCases, code, onRunTests }: TestRunnerProps) {
     // For now, we'll just show mock results after a delay
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    const mockResults: TestResult[] = testCases.map((testCase, index) => ({
+    const mockResults: TestResult[] = testCases.map((testCase) => ({
       passed: Math.random() > 0.3, // 70% pass rate for demo
       input: testCase.input,
       expected: testCase.expected,

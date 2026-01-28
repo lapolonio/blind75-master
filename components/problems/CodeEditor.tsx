@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import Editor, { OnMount, type Monaco } from '@monaco-editor/react';
+import Editor, { OnMount } from '@monaco-editor/react';
 import type { editor } from 'monaco-editor';
 import { useEditorStore, useThemeStore } from '@/lib/store';
 import { Language, StarterCode } from '@/types/problem';

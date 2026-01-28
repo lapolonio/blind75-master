@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Problem, UserProgress, Language } from '@/types/problem';
+import { Problem, UserProgress } from '@/types/problem';
 import { CodeEditor } from '@/components/problems/CodeEditor';
 import { TestRunner } from '@/components/problems/TestRunner';
 import { Visualizer } from '@/components/problems/Visualizer';
@@ -145,7 +145,7 @@ export function ProblemDetail({
           <div className="w-1/2 border-r overflow-auto">
             <Tabs
               value={activeTab}
-              onValueChange={(v: any) => setActiveTab(v)}
+              onValueChange={(v: string) => setActiveTab(v)}
               className="h-full flex flex-col"
             >
               <div className="border-b px-4">

@@ -12,13 +12,26 @@ export async function GET() {
       orderBy: { order: 'asc' },
     });
 
+    interface ProgressFromDB {
+      problemId: string;
+      status: string;
+      attempts: number;
+      lastCode: string | null;
+      solvedAt: Date | null;
+    }
+
+    interface ProblemFromDB {
+      id: string;
+      [key: string]: unknown;
+    }
+
     // If user is logged in, get their progress
-    let progressMap: Record<string, any> = {};
+    let progressMap: Record<string, { status: string; attempts: number; lastCode: string | null; solvedAt: Date | null }> = {};
     if (session?.user?.id) {
       const progress = await prisma.progress.findMany({
         where: { userId: session.user.id },
       });
-      progressMap = progress.reduce((acc: Record<string, any>, p: { problemId: string; status: string; attempts: number; lastCode: string | null; solvedAt: Date | null }) => {
+      progressMap = progress.reduce((acc: Record<string, { status: string; attempts: number; lastCode: string | null; solvedAt: Date | null }>, p: ProgressFromDB) => {
         acc[p.problemId] = {
           status: p.status,
           attempts: p.attempts,
@@ -26,11 +39,11 @@ export async function GET() {
           solvedAt: p.solvedAt,
         };
         return acc;
-      }, {} as Record<string, any>);
+      }, {});
     }
 
     // Combine problems with progress
-    const problemsWithProgress = problems.map((problem: any) => ({
+    const problemsWithProgress = problems.map((problem: ProblemFromDB) => ({
       ...problem,
       progress: progressMap[problem.id] || null,
     }));

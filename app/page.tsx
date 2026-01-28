@@ -153,7 +153,7 @@ export default function HomePage() {
               { title: 'Best Time to Buy and Sell Stock', difficulty: 'easy', category: 'Array' },
               { title: 'Contains Duplicate', difficulty: 'easy', category: 'Array' },
               { title: 'Valid Anagram', difficulty: 'easy', category: 'String' },
-            ].map((problem, i) => (
+            ].map((problem) => (
               <div
                 key={problem.title}
                 className="flex items-center justify-between p-4 rounded-lg border hover:border-primary/50 transition-colors"

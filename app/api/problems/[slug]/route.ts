@@ -27,7 +27,7 @@ export async function GET(
       return NextResponse.json({
         ...problem,
         solution: null,
-        testCases: (problem.testCases as any[]).slice(0, 2),
+        testCases: (problem.testCases as { input: string; expected: string; description?: string }[]).slice(0, 2),
         isLocked: true,
       });
     }

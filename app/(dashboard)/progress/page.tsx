@@ -26,7 +26,12 @@ async function getProgressStats(userId: string) {
     }),
   ]);
 
-  const progressMap = new Map(progress.map((p: any) => [p.problemId, p]));
+  interface ProgressFromDB {
+    problemId: string;
+    status: string;
+  }
+
+  const progressMap = new Map(progress.map((p: ProgressFromDB) => [p.problemId, p]));
 
   // Calculate stats
   const stats = {
@@ -42,7 +47,14 @@ async function getProgressStats(userId: string) {
     byPattern: {} as Record<string, { solved: number; total: number }>,
   };
 
-  problems.forEach((problem: any) => {
+  interface ProblemFromDB {
+    id: string;
+    difficulty: string;
+    category: string;
+    pattern: string;
+  }
+
+  problems.forEach((problem: ProblemFromDB) => {
     const userProgress = progressMap.get(problem.id) as { status: string } | undefined;
 
     // Difficulty stats
@@ -76,9 +88,17 @@ async function getProgressStats(userId: string) {
   });
 
   // Get recent activity
-  const recentActivity = progress.slice(0, 10).map((p: any) => ({
+  interface RecentProgressFromDB {
+    id: string;
+    status: string;
+    attempts: number;
+    updatedAt: Date;
+    problemId: string;
+  }
+
+  const recentActivity = progress.slice(0, 10).map((p: RecentProgressFromDB) => ({
     ...p,
-    problem: problems.find((prob: any) => prob.id === p.problemId),
+    problem: problems.find((prob: ProblemFromDB) => prob.id === p.problemId),
   }));
 
   return { stats, recentActivity };

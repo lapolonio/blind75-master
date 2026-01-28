@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import { problemsData } from '../lib/problems-data';
 
 const prisma = new PrismaClient();
@@ -21,11 +21,11 @@ async function main() {
         pattern: problem.pattern,
         description: problem.description,
         constraints: problem.constraints,
-        examples: problem.examples,
-        starterCode: problem.starterCode,
-        solution: problem.solution,
-        testCases: problem.testCases,
-        hints: problem.hints || [],
+        examples: problem.examples as unknown as Prisma.InputJsonValue,
+        starterCode: problem.starterCode as unknown as Prisma.InputJsonValue,
+        solution: problem.solution as unknown as Prisma.InputJsonValue,
+        testCases: problem.testCases as unknown as Prisma.InputJsonValue,
+        hints: (problem.hints || []) as unknown as Prisma.InputJsonValue,
         isPremium: problem.isPremium,
         order: problem.order,
       },

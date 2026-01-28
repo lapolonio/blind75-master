@@ -64,7 +64,7 @@ export default function SignupPage() {
         router.push('/problems');
         router.refresh();
       }
-    } catch (error) {
+    } catch {
       setErrorMessage('Something went wrong. Please try again.');
     } finally {
       setIsLoading(false);
